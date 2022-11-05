@@ -1,5 +1,28 @@
-type ExampleEntity @entity {
+type Vault @entity {
+  id: ID! # Address
+  name: String!
+  collection: String!
+  proposed: BigInt!
+  executed: BigInt!
+}
+
+type Proposal @entity {
   id: ID!
-  count: BigInt!
-  name: String! # string
+  title: String!
+  description: String!
+  snapshotBlock: String!
+  endBlock: BigInt!
+  vaultId: String!
+  executed: Boolean!
+  executedAt: BigInt
+  executedTx: String
+  transactions: [Transaction!]
+}
+
+type Transaction @entity {
+  id: ID! # {vault}-{block}
+  to: String!
+  value: BigInt!
+  data: String!
+  gas: BigInt!
 }

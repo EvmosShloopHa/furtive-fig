@@ -1,4 +1,4 @@
-specVersion: 0.0.1
+specVersion: 0.0.4
 schema:
   file: ./schema.graphql
 dataSources:
@@ -6,11 +6,10 @@ dataSources:
     name: MeloVault
     network: goerli
     source:
-      address: "0x35c17f4693cAE61c7c8569E89Ac1339fb43B7dD3"
       abi: MeloVault
     mapping:
       kind: ethereum/events
-      apiVersion: 0.0.5
+      apiVersion: 0.0.6
       language: wasm/assemblyscript
       entities:
         - MeloVaultCreated
@@ -20,9 +19,9 @@ dataSources:
         - name: MeloVault
           file: ./abis/MeloVault.json
       eventHandlers:
-        - event: MeloVaultCreated(indexed string)
+        - event: MeloVaultCreated(indexed string,indexed address)
           handler: handleMeloVaultCreated
-        - event: ProposalCreated(indexed bytes32,bytes32,(indexed uint256,string,string,(address,uint256,bytes,uint256)[]))
+        - event: ProposalCreated(indexed bytes32,indexed bytes32,(indexed uint256,string,string,(address,uint256,bytes,uint256)[]))
           handler: handleProposalCreated
         - event: ProposalExecuted(indexed bytes32,(indexed uint256,string,string,(address,uint256,bytes,uint256)[]))
           handler: handleProposalExecuted
