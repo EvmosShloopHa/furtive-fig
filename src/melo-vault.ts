@@ -19,8 +19,10 @@ export function handleMeloVaultCreated(event: MeloVaultCreated): void {
 
 export function handleProposalCreated(event: ProposalCreated): void {
   // Create Proposal.
-  const proposalId = event.address + '-' + event.params.id.toString()
+  const proposalId = event.address.toHex() + '-' + event.params.id.toString()
   const proposal = new Proposal(proposalId)
+  proposal.description = event.params.proposal.toString()
+  proposal.save()
 
   // Increment proposed count on Vault.
   const vault = Vault.load(event.address.toHex())
@@ -32,7 +34,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
 export function handleProposalExecuted(event: ProposalExecuted): void {
   // Find Proposal and mark as executed.
-  const proposalId = event.address + '-' + event.params.id.toString()
+  const proposalId = event.address.toHex() + '-' + event.params.id.toString()
   const proposal = Proposal.load(proposalId)
   if (proposal) {
     proposal.executed = true

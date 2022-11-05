@@ -164,22 +164,38 @@ export class Proposal extends Entity {
     this.set("executed", Value.fromBoolean(value));
   }
 
-  get executedAt(): BigInt {
+  get executedAt(): BigInt | null {
     let value = this.get("executedAt");
-    return value!.toBigInt();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toBigInt();
+    }
   }
 
-  set executedAt(value: BigInt) {
-    this.set("executedAt", Value.fromBigInt(value));
+  set executedAt(value: BigInt | null) {
+    if (!value) {
+      this.unset("executedAt");
+    } else {
+      this.set("executedAt", Value.fromBigInt(<BigInt>value));
+    }
   }
 
-  get executedTx(): string {
+  get executedTx(): string | null {
     let value = this.get("executedTx");
-    return value!.toString();
+    if (!value || value.kind == ValueKind.NULL) {
+      return null;
+    } else {
+      return value.toString();
+    }
   }
 
-  set executedTx(value: string) {
-    this.set("executedTx", Value.fromString(value));
+  set executedTx(value: string | null) {
+    if (!value) {
+      this.unset("executedTx");
+    } else {
+      this.set("executedTx", Value.fromString(<string>value));
+    }
   }
 
   get transactions(): Array<string> | null {
