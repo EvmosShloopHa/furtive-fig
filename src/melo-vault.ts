@@ -26,6 +26,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
   proposal.endBlock = event.params.proposal.endBlock
   proposal.vault = event.address.toHex()
   proposal.executed = false
+  proposal.save()
 
   const transactions: string[] = []
   const length = event.params.proposal.transactions.length
@@ -41,9 +42,6 @@ export function handleProposalCreated(event: ProposalCreated): void {
 
     transactions.push(transaction.id)
   }
-
-  proposal.transactions = transactions
-  proposal.save()
 
   // Increment proposed count on Vault.
   const vault = Vault.load(event.address.toHex())

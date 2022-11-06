@@ -7,7 +7,7 @@ dataSources:
     network: goerli
     source:
       abi: MeloVault
-      startBlock: 7899552
+      startBlock: 7899844
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
