@@ -45,8 +45,8 @@ export class ProposalCreated__Params {
     this._event = event;
   }
 
-  get id(): Bytes {
-    return this._event.parameters[0].value.toBytes();
+  get id(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 
   get snapshotBlockHash(): Bytes {
@@ -109,8 +109,8 @@ export class ProposalExecuted__Params {
     this._event = event;
   }
 
-  get id(): Bytes {
-    return this._event.parameters[0].value.toBytes();
+  get id(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
   }
 
   get proposal(): ProposalExecutedProposalStruct {
@@ -222,25 +222,6 @@ export class MeloVault extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toBigInt());
-  }
-
-  executed(param0: Bytes): boolean {
-    let result = super.call("executed", "executed(bytes32):(bool)", [
-      ethereum.Value.fromFixedBytes(param0)
-    ]);
-
-    return result[0].toBoolean();
-  }
-
-  try_executed(param0: Bytes): ethereum.CallResult<boolean> {
-    let result = super.tryCall("executed", "executed(bytes32):(bool)", [
-      ethereum.Value.fromFixedBytes(param0)
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBoolean());
   }
 
   maxBlocksInFuture(): BigInt {
@@ -433,43 +414,70 @@ export class MeloVault extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toBytes());
   }
 
-  proposalHash(proposal: MeloVault__proposalHashInputProposalStruct): Bytes {
+  proposalBlockTimes(param0: BigInt): BigInt {
     let result = super.call(
-      "proposalHash",
-      "proposalHash((uint256,string,string,(address,uint256,bytes,uint256)[])):(bytes32)",
-      [ethereum.Value.fromTuple(proposal)]
+      "proposalBlockTimes",
+      "proposalBlockTimes(uint64):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
     );
 
-    return result[0].toBytes();
+    return result[0].toBigInt();
   }
 
-  try_proposalHash(
-    proposal: MeloVault__proposalHashInputProposalStruct
-  ): ethereum.CallResult<Bytes> {
+  try_proposalBlockTimes(param0: BigInt): ethereum.CallResult<BigInt> {
     let result = super.tryCall(
-      "proposalHash",
-      "proposalHash((uint256,string,string,(address,uint256,bytes,uint256)[])):(bytes32)",
-      [ethereum.Value.fromTuple(proposal)]
+      "proposalBlockTimes",
+      "proposalBlockTimes(uint64):(uint256)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
     );
     if (result.reverted) {
       return new ethereum.CallResult();
     }
     let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBytes());
+    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
-  proposals(param0: Bytes): BigInt {
-    let result = super.call("proposals", "proposals(bytes32):(uint256)", [
-      ethereum.Value.fromFixedBytes(param0)
-    ]);
+  proposalExecuted(param0: BigInt): boolean {
+    let result = super.call(
+      "proposalExecuted",
+      "proposalExecuted(uint64):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+
+    return result[0].toBoolean();
+  }
+
+  try_proposalExecuted(param0: BigInt): ethereum.CallResult<boolean> {
+    let result = super.tryCall(
+      "proposalExecuted",
+      "proposalExecuted(uint64):(bool)",
+      [ethereum.Value.fromUnsignedBigInt(param0)]
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(value[0].toBoolean());
+  }
+
+  proposalHash(proposal: MeloVault__proposalHashInputProposalStruct): BigInt {
+    let result = super.call(
+      "proposalHash",
+      "proposalHash((uint256,string,string,(address,uint256,bytes,uint256)[])):(uint64)",
+      [ethereum.Value.fromTuple(proposal)]
+    );
 
     return result[0].toBigInt();
   }
 
-  try_proposals(param0: Bytes): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("proposals", "proposals(bytes32):(uint256)", [
-      ethereum.Value.fromFixedBytes(param0)
-    ]);
+  try_proposalHash(
+    proposal: MeloVault__proposalHashInputProposalStruct
+  ): ethereum.CallResult<BigInt> {
+    let result = super.tryCall(
+      "proposalHash",
+      "proposalHash((uint256,string,string,(address,uint256,bytes,uint256)[])):(uint64)",
+      [ethereum.Value.fromTuple(proposal)]
+    );
     if (result.reverted) {
       return new ethereum.CallResult();
     }

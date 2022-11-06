@@ -22,8 +22,8 @@ dataSources:
       eventHandlers:
         - event: MeloVaultCreated(string,address)
           handler: handleMeloVaultCreated
-        - event: ProposalCreated(bytes32,bytes32,(uint256,string,string,(address,uint256,bytes,uint256)[]))
+        - event: ProposalCreated(uint64,bytes32,(uint256,string,string,(address,uint256,bytes,uint256)[]))
           handler: handleProposalCreated
-        - event: ProposalExecuted(bytes32,(uint256,string,string,(address,uint256,bytes,uint256)[]))
+        - event: ProposalExecuted(uint64,(uint256,string,string,(address,uint256,bytes,uint256)[]))
           handler: handleProposalExecuted
       file: ./src/melo-vault.ts
