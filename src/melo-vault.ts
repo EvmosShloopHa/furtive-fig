@@ -38,6 +38,7 @@ export function handleProposalCreated(event: ProposalCreated): void {
     transaction.value = tx.value
     transaction.data = tx.data.toHex()
     transaction.gas = tx.gas
+    transaction.proposal = proposal.id
     transaction.save()
 
     transactions.push(transaction.id)
