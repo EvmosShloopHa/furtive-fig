@@ -23,8 +23,8 @@ export class MeloVaultCreated__Params {
     this._event = event;
   }
 
-  get name(): Bytes {
-    return this._event.parameters[0].value.toBytes();
+  get name(): string {
+    return this._event.parameters[0].value.toString();
   }
 
   get token(): Address {
@@ -53,8 +53,46 @@ export class ProposalCreated__Params {
     return this._event.parameters[1].value.toBytes();
   }
 
-  get proposal(): Bytes {
-    return this._event.parameters[2].value.toBytes();
+  get proposal(): ProposalCreatedProposalStruct {
+    return changetype<ProposalCreatedProposalStruct>(
+      this._event.parameters[2].value.toTuple()
+    );
+  }
+}
+
+export class ProposalCreatedProposalStruct extends ethereum.Tuple {
+  get endBlock(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get title(): string {
+    return this[1].toString();
+  }
+
+  get descriptionHash(): string {
+    return this[2].toString();
+  }
+
+  get transactions(): Array<ProposalCreatedProposalTransactionsStruct> {
+    return this[3].toTupleArray<ProposalCreatedProposalTransactionsStruct>();
+  }
+}
+
+export class ProposalCreatedProposalTransactionsStruct extends ethereum.Tuple {
+  get to(): Address {
+    return this[0].toAddress();
+  }
+
+  get value(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get data(): Bytes {
+    return this[2].toBytes();
+  }
+
+  get gas(): BigInt {
+    return this[3].toBigInt();
   }
 }
 
@@ -75,8 +113,46 @@ export class ProposalExecuted__Params {
     return this._event.parameters[0].value.toBytes();
   }
 
-  get proposal(): Bytes {
-    return this._event.parameters[1].value.toBytes();
+  get proposal(): ProposalExecutedProposalStruct {
+    return changetype<ProposalExecutedProposalStruct>(
+      this._event.parameters[1].value.toTuple()
+    );
+  }
+}
+
+export class ProposalExecutedProposalStruct extends ethereum.Tuple {
+  get endBlock(): BigInt {
+    return this[0].toBigInt();
+  }
+
+  get title(): string {
+    return this[1].toString();
+  }
+
+  get descriptionHash(): string {
+    return this[2].toString();
+  }
+
+  get transactions(): Array<ProposalExecutedProposalTransactionsStruct> {
+    return this[3].toTupleArray<ProposalExecutedProposalTransactionsStruct>();
+  }
+}
+
+export class ProposalExecutedProposalTransactionsStruct extends ethereum.Tuple {
+  get to(): Address {
+    return this[0].toAddress();
+  }
+
+  get value(): BigInt {
+    return this[1].toBigInt();
+  }
+
+  get data(): Bytes {
+    return this[2].toBytes();
+  }
+
+  get gas(): BigInt {
+    return this[3].toBigInt();
   }
 }
 

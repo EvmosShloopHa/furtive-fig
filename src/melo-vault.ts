@@ -21,7 +21,28 @@ export function handleProposalCreated(event: ProposalCreated): void {
   // Create Proposal.
   const proposalId = event.address.toHex() + '-' + event.params.id.toString()
   const proposal = new Proposal(proposalId)
-  proposal.description = event.params.proposal.toString()
+  proposal.title = event.params.proposal.title
+  proposal.description = event.params.proposal.descriptionHash
+  proposal.endBlock = event.params.proposal.endBlock
+  proposal.vault = event.address.toHex()
+  proposal.executed = false
+
+  const transactions: string[] = []
+  const length = event.params.proposal.transactions.length
+  for (let idx = 0; idx < length; ++idx) {
+    const tx = event.params.proposal.transactions[idx]
+    const tId = proposal.vault + '-' + proposal.id + '-' + idx.toString()
+    const transaction = new Transaction(tId)
+    transaction.to = tx.to.toHex()
+    transaction.value = tx.value
+    transaction.data = tx.data.toHex()
+    transaction.gas = tx.gas
+    transaction.save()
+
+    transactions.push(transaction.id)
+  }
+
+  proposal.transactions = transactions
   proposal.save()
 
   // Increment proposed count on Vault.
@@ -50,27 +71,3 @@ export function handleProposalExecuted(event: ProposalExecuted): void {
     vault.save()
   }
 }
-
-// Note: If a handler doesn't require existing field values, it is faster
-// _not_ to load the entity from the store. Instead, create it fresh with
-// `new Entity(...)`, set the fields that should be updated and save the
-// entity back to the store. Fields that were not set or unset remain
-// unchanged, allowing for partial updates to be applied.
-
-// It is also possible to access smart contracts from mappings. For
-// example, the contract that has emitted the event can be connected to
-// with:
-//
-// let contract = Contract.bind(event.address)
-//
-// The following functions can then be called on this contract to access
-// state variables and other data:
-//
-// - contract.blocksAllowedForExecution(...)
-// - contract.executed(...)
-// - contract.maxBlocksInFuture(...)
-// - contract.name(...)
-// - contract.nft(...)
-// - contract.proposalHash(...)
-// - contract.proposals(...)
-// - contract.verifier(...)

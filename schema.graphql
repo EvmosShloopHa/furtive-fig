@@ -4,25 +4,26 @@ type Vault @entity {
   collection: String!
   proposed: BigInt!
   executed: BigInt!
+  proposals: [Proposal!]! @derivedFrom(field: "vault")
 }
 
 type Proposal @entity {
-  id: ID!
+  id: ID! # {vault-address}-{proposal-id}
   title: String!
   description: String!
-  snapshotBlock: String!
   endBlock: BigInt!
-  vaultId: String!
+  vault: Vault!
   executed: Boolean!
   executedAt: BigInt
   executedTx: String
-  transactions: [Transaction!]
+  transactions: [Transaction!]! @derivedFrom(field: "proposal")
 }
 
 type Transaction @entity {
-  id: ID! # {vault}-{block}
+  id: ID!  # uuid
   to: String!
   value: BigInt!
   data: String!
   gas: BigInt!
+  proposal: Proposal!
 }

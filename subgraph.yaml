@@ -7,6 +7,7 @@ dataSources:
     network: goerli
     source:
       abi: MeloVault
+      startBlock: 7899552
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.6
@@ -19,10 +20,10 @@ dataSources:
         - name: MeloVault
           file: ./abis/MeloVault.json
       eventHandlers:
-        - event: MeloVaultCreated(indexed string,indexed address)
+        - event: MeloVaultCreated(string,address)
           handler: handleMeloVaultCreated
-        - event: ProposalCreated(indexed bytes32,indexed bytes32,(indexed uint256,string,string,(address,uint256,bytes,uint256)[]))
+        - event: ProposalCreated(bytes32,bytes32,(uint256,string,string,(address,uint256,bytes,uint256)[]))
           handler: handleProposalCreated
-        - event: ProposalExecuted(indexed bytes32,(indexed uint256,string,string,(address,uint256,bytes,uint256)[]))
+        - event: ProposalExecuted(bytes32,(uint256,string,string,(address,uint256,bytes,uint256)[]))
           handler: handleProposalExecuted
       file: ./src/melo-vault.ts

@@ -77,6 +77,15 @@ export class Vault extends Entity {
   set executed(value: BigInt) {
     this.set("executed", Value.fromBigInt(value));
   }
+
+  get proposals(): Array<string> {
+    let value = this.get("proposals");
+    return value!.toStringArray();
+  }
+
+  set proposals(value: Array<string>) {
+    this.set("proposals", Value.fromStringArray(value));
+  }
 }
 
 export class Proposal extends Entity {
@@ -128,15 +137,6 @@ export class Proposal extends Entity {
     this.set("description", Value.fromString(value));
   }
 
-  get snapshotBlock(): string {
-    let value = this.get("snapshotBlock");
-    return value!.toString();
-  }
-
-  set snapshotBlock(value: string) {
-    this.set("snapshotBlock", Value.fromString(value));
-  }
-
   get endBlock(): BigInt {
     let value = this.get("endBlock");
     return value!.toBigInt();
@@ -146,13 +146,13 @@ export class Proposal extends Entity {
     this.set("endBlock", Value.fromBigInt(value));
   }
 
-  get vaultId(): string {
-    let value = this.get("vaultId");
+  get vault(): string {
+    let value = this.get("vault");
     return value!.toString();
   }
 
-  set vaultId(value: string) {
-    this.set("vaultId", Value.fromString(value));
+  set vault(value: string) {
+    this.set("vault", Value.fromString(value));
   }
 
   get executed(): boolean {
@@ -198,21 +198,13 @@ export class Proposal extends Entity {
     }
   }
 
-  get transactions(): Array<string> | null {
+  get transactions(): Array<string> {
     let value = this.get("transactions");
-    if (!value || value.kind == ValueKind.NULL) {
-      return null;
-    } else {
-      return value.toStringArray();
-    }
+    return value!.toStringArray();
   }
 
-  set transactions(value: Array<string> | null) {
-    if (!value) {
-      this.unset("transactions");
-    } else {
-      this.set("transactions", Value.fromStringArray(<Array<string>>value));
-    }
+  set transactions(value: Array<string>) {
+    this.set("transactions", Value.fromStringArray(value));
   }
 }
 
@@ -281,5 +273,14 @@ export class Transaction extends Entity {
 
   set gas(value: BigInt) {
     this.set("gas", Value.fromBigInt(value));
+  }
+
+  get proposal(): string {
+    let value = this.get("proposal");
+    return value!.toString();
+  }
+
+  set proposal(value: string) {
+    this.set("proposal", Value.fromString(value));
   }
 }

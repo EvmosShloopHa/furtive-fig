@@ -24,13 +24,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "string",
         "name": "name",
         "type": "string"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "address",
         "name": "token",
         "type": "address"
@@ -43,13 +43,13 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "bytes32",
         "name": "id",
         "type": "bytes32"
       },
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "bytes32",
         "name": "snapshotBlockHash",
         "type": "bytes32"
@@ -99,7 +99,7 @@
             "type": "tuple[]"
           }
         ],
-        "indexed": true,
+        "indexed": false,
         "internalType": "struct MeloVault.Proposal",
         "name": "proposal",
         "type": "tuple"
@@ -112,7 +112,7 @@
     "anonymous": false,
     "inputs": [
       {
-        "indexed": true,
+        "indexed": false,
         "internalType": "bytes32",
         "name": "id",
         "type": "bytes32"
@@ -162,7 +162,7 @@
             "type": "tuple[]"
           }
         ],
-        "indexed": true,
+        "indexed": false,
         "internalType": "struct MeloVault.Proposal",
         "name": "proposal",
         "type": "tuple"
